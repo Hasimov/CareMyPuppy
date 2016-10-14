@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "545095637673",
+    "firebase_url": "https://caremypuppy.firebaseio.com",
+    "project_id": "caremypuppy",
+    "storage_bucket": "caremypuppy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545095637673:android:a368526dd58adc9b",
+        "android_client_info": {
+          "package_name": "com.carepuppy.pirtu.caremypuppy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545095637673-cqgba6sn2894622lm48bgu1n0pc8mbol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.carepuppy.pirtu.caremypuppy",
+            "certificate_hash": "F6C04026765F579C602CA6BC07E3B4F711F1348A"
+          }
+        },
+        {
+          "client_id": "545095637673-vom4uk69h7ke49gielk0ob4lpphqgbif.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOcu0-CNElX4P7fKna-q_OasioLfwslaE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545095637673-vom4uk69h7ke49gielk0ob4lpphqgbif.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

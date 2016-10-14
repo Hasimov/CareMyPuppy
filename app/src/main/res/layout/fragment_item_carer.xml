@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="10dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/iVcareAvatar"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/avatar1"/>
+
+        <TextView
+            android:id="@+id/tVcareName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre de usuario"
+            android:textSize="18dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/iVcareAvatar" />
+        <TextView
+            android:id="@+id/tVcareAdress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Calle ... , CP"
+            android:textSize="16dp"
+            android:textStyle="italic"
+            android:layout_toRightOf="@+id/iVcareAvatar"
+            android:layout_below="@+id/tVcareName" />
+        <TextView
+            android:id="@+id/tVcareCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="City"
+            android:textSize="18dp"
+            android:textStyle="italic"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/iVcareAvatar"
+            android:layout_below="@+id/tVcareAdress" />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/ratingBarStyleSmall"
+            android:id="@+id/rBList_Carer"
+            android:numStars="5"
+            android:rating="5"
+            android:stepSize="0.5"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:layout_below="@+id/tVcareAdress"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:progressTint="@color/startlight"
+            android:progressBackgroundTint="@color/startlight"
+            android:secondaryProgressTint="@color/startlight"
+            />
+
+    </RelativeLayout>
+
+
+
+</android.support.v7.widget.CardView>

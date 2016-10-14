@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">CareMyPuppy</string>
+    <string name="registro"><u>Registrar</u></string>
+    <string name="title_activity_main">Care my Puppy</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_detalle_cuidador"></string>
+    <string name="large_text">Descripción del cuidador</string>
+    <string name="desc_content">Soy animalista y amante de los animales desde que tengo uso de razón.
+        He sido voluntaria durante 5 años en una Asociación Protectora de Animales y he acogido en mi casa a muchos bichillos rescatados de la calle.
+        Tengo dos cursos en educación canina básica , por lo que tengo nociones de adiestramiento y comportamiento animal.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

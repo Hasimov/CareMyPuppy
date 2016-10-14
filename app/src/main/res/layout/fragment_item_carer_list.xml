@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--aqui pongo un relative layout-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    tools:context=".Fragments.ItemFragmentCarer">
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:id="@+id/eTlocal"
+        android:hint="Ciudad ..."
+        android:layout_margin="5dp"
+        android:focusableInTouchMode="true"
+        android:layout_toLeftOf="@+id/btn_search"/>
+    <Button
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/btn_search"
+        android:layout_margin="5dp"
+        android:background="@drawable/lupa"
+        android:layout_alignParentRight="true"/>
+
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/recyclerViewContent"
+        android:name="com.carepuppy.pirtu.caremypuppy.ItemFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".Fragments.ItemFragmentCarer"
+        tools:listitem="@layout/fragment_item_carer"
+        android:layout_below="@+id/eTlocal"/>
+
+</RelativeLayout>
+
+
