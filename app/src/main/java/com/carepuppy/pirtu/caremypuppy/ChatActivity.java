@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.carepuppy.pirtu.caremypuppy.Interfaces.OnListFragmentInteractionListenerChatActivity;
 import com.carepuppy.pirtu.caremypuppy.Models.MessageChatModel;
@@ -21,6 +22,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ChatActivity extends AppCompatActivity {
@@ -98,7 +102,7 @@ public class ChatActivity extends AppCompatActivity {
         setTitle(firstName);
 
         //TODO quitar
-        Log.d("CLAVE", mCurrentUserUid+mRecipientUid);
+        Log.d("CLAVE", MESSAGES_CHILD_ITEM);
 
         // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
@@ -111,7 +115,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 //decido donde pongo los mensajes
 
-                if(messageModel.getSender().equals("ehkWuIWJmSgGhf3OgpAX1F3N0JJ3")){
+                if(messageModel.getSender().equals(mCurrentUserUid)){
 
                     viewHolder.tVmessageSender.setText(messageModel.getMessage());
                     viewHolder.tVmessageRecipient.setVisibility(View.GONE);
@@ -121,7 +125,17 @@ public class ChatActivity extends AppCompatActivity {
                     viewHolder.tVmessageSender.setVisibility(View.GONE);
 
                 }
+
+                //TODO quitar
                 Log.d("MENS",messageModel.getMessage());
+
+                btn_chat_send.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    sendingMessage();
+                    }
+                });
 
             }
         };
@@ -151,5 +165,23 @@ public class ChatActivity extends AppCompatActivity {
 
     }//final onCreate
 
+
+    public void sendingMessage(){
+
+        String message = eTChat_textsending.getText().toString();
+
+        if (!message.equals("")){
+            MessageChatModel messageSending = new MessageChatModel(mRecipientUid,mCurrentUserUid,message);
+            Log.d("MENSAJE", messageSending.toString());
+
+            mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(MESSAGES_CHILD_ITEM).push().setValue(messageSending);
+            eTChat_textsending.setText("");
+
+        }else{
+            Toast.makeText(getBaseContext(),"Escriba un mensaje",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
 }//final class
