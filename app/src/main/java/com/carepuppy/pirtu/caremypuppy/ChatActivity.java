@@ -34,8 +34,6 @@ public class ChatActivity extends AppCompatActivity {
     String firstName, avatarId, mRecipientUid, mCurrentUserName,mCurrentUserUid;
     ActionBar actionbar;
 
-
-
     public static final String MESSAGES_CHILD = "chat_rooms";
     /*Los id de los chats están generados al sumar las claves de cada user, de este modo es fácil
     saber en que chat room están hablando*/
@@ -59,7 +57,7 @@ public class ChatActivity extends AppCompatActivity {
 
         public MessageViewHolder(View v) {
             super(v);
-//            iVuserAvatar = (ImageView) itemView.findViewById(R.id.iVcareAvatar);
+//          iVuserAvatar = (ImageView) itemView.findViewById(R.id.iVcareAvatar);
             tVmessageRecipient = (TextView) itemView.findViewById(R.id.recipientMessage);
             tVmessageSender = (TextView) itemView.findViewById(R.id.senderMessage);
 
@@ -103,6 +101,9 @@ public class ChatActivity extends AppCompatActivity {
 
         //TODO quitar
         Log.d("CLAVE", MESSAGES_CHILD_ITEM);
+        //TODO quitar, pruebo que existe este idChatInfo
+        Utils.generateChatRoomsKey(mRecipientUid,mCurrentUserUid);
+        Utils.idChatRoomChecker(mCurrentUserUid,mRecipientUid);
 
         // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
