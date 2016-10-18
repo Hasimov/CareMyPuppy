@@ -1,6 +1,7 @@
 package com.carepuppy.pirtu.caremypuppy.Utiles;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.carepuppy.pirtu.caremypuppy.Fragments.ItemFragmentCarer;
 import com.carepuppy.pirtu.caremypuppy.Models.Carer;
@@ -97,4 +98,28 @@ public class Utils {
         return keyExist;
 
     }//fin idChatChecker
+
+    /*Genera a partir de los ids el ChatRoom y ChatRoomInfo*/
+    public static void generateIdChatMetadata(String idCurrentUser, String idRecipient, UsersChatModel userChatModel){
+
+        //TODO
+        MessageChatModel welcomeMessage = new MessageChatModel();
+        welcomeMessage.setMessage("Gracias por usar el Chat de Care my Puppy, comience a hablar con" +
+                "el cuidador cuando quiera!! wuau!!");
+        welcomeMessage.setRecipient(idRecipient);
+        welcomeMessage.setSender(idCurrentUser);
+
+        DatabaseReference mFirebaseDatabaseReference;
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+        /*si no existe el chat room se pasa a crearlo con este método*/
+        String idNewChatRoom = generateChatRoomsKey(idRecipient,idCurrentUser);
+
+        //introducimos los datos de cabecera del chatRoom nuevo.
+        mFirebaseDatabaseReference.child("chat_rooms_info").child(idCurrentUser).child(idNewChatRoom).setValue(userChatModel);
+        //creamos el chatRoom con mensaje de bienvenida
+        mFirebaseDatabaseReference.child("chat_rooms").child(idNewChatRoom).setValue(welcomeMessage);
+
+
+    }
 }
