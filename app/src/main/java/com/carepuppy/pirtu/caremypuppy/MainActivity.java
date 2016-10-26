@@ -22,6 +22,7 @@ import com.carepuppy.pirtu.caremypuppy.Interfaces.OnListFragmentInteractionListe
 import com.carepuppy.pirtu.caremypuppy.Models.Carer;
 import com.carepuppy.pirtu.caremypuppy.Models.MessageChatModel;
 import com.carepuppy.pirtu.caremypuppy.Models.UsersChatModel;
+import com.carepuppy.pirtu.caremypuppy.Utiles.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -65,8 +66,6 @@ public class MainActivity extends AppCompatActivity
         itemFragmentCarer = new ItemFragmentCarer();
         chatsFragment = new ChatsFragment();
         transicionPagina(itemFragmentCarer);
-
-
 
 
 //Registro con Firebase

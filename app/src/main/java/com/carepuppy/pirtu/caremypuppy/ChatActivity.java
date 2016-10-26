@@ -23,8 +23,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class ChatActivity extends AppCompatActivity {
@@ -95,22 +93,23 @@ public class ChatActivity extends AppCompatActivity {
 
         /*Genero la key del chatroom*/
         MESSAGES_CHILD_ITEM = Utils.generateChatRoomsKey(mCurrentUserUid, mRecipientUid);
+        Log.d("MESSAGE_CHIL_ITEM",MESSAGES_CHILD_ITEM);
 
         /*cambio el título de la bar*/
         setTitle(firstName);
 
         //TODO quitar
-        Log.d("CLAVE", MESSAGES_CHILD_ITEM);
-        //TODO quitar, pruebo que existe este idChatInfo
-        Utils.generateChatRoomsKey(mRecipientUid,mCurrentUserUid);
-        Utils.idChatRoomChecker(mCurrentUserUid,mRecipientUid);
 
+        //TODO quitar, pruebo que existe este idChatInfo
+        //Utils.generateChatRoomsKey(mRecipientUid,mCurrentUserUid);
+        //Utils.idChatRoomChecker(mCurrentUserUid,mRecipientUid);
         // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAdapter = new FirebaseRecyclerAdapter<MessageChatModel, MessageViewHolder>(MessageChatModel.class,
                 R.layout.message_item,
                 MessageViewHolder.class,
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(MESSAGES_CHILD_ITEM)) {
+
             @Override
             protected void populateViewHolder(MessageViewHolder viewHolder, MessageChatModel messageModel, int position) {
 
@@ -169,7 +168,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void sendingMessage(){
 
-        String message = eTChat_textsending.getText().toString();
+        String message = eTChat_textsending.getText().toString().trim();
 
         if (!message.equals("")){
             MessageChatModel messageSending = new MessageChatModel(mRecipientUid,mCurrentUserUid,message);

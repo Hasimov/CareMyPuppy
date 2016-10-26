@@ -21,8 +21,15 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class Utils {
 
-    public static boolean keyExist = false;
+    public static boolean keyExist;
 
+    /**
+     * Tomando como referencia la instancia de Firebase rescata el id del usuario según la posición
+     * en el listview
+     * @param mFirebaseAdapter
+     * @param position
+     * @return id del usuario
+     */
     public static String getCarerKey (FirebaseRecyclerAdapter<Carer, ItemFragmentCarer.CarerViewHolder> mFirebaseAdapter, int position){
 
         DatabaseReference dbKey = mFirebaseAdapter.getRef(position);
@@ -72,7 +79,6 @@ public class Utils {
            public void onDataChange(DataSnapshot dataSnapshot) {
                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                    UsersChatModel usersChatModel = postSnapshot.getValue(UsersChatModel.class);
-
                    String keyItemChat = postSnapshot.getKey();
 
                    if (keyChatRoom.equals(keyItemChat)){
@@ -100,25 +106,26 @@ public class Utils {
     }//fin idChatChecker
 
     /*Genera a partir de los ids el ChatRoom y ChatRoomInfo*/
-    public static void generateIdChatMetadata(String idCurrentUser, String idRecipient, UsersChatModel userChatModel){
+    public static void generateIdChatMetadata(UsersChatModel userChatModel){
 
         //TODO
+        String welcomeMessageText = "Gracias por usar el Chat de Care my Puppy, comience a hablar con" +
+                " el cuidador cuando quiera!! wuau!!";
         MessageChatModel welcomeMessage = new MessageChatModel();
-        welcomeMessage.setMessage("Gracias por usar el Chat de Care my Puppy, comience a hablar con" +
-                "el cuidador cuando quiera!! wuau!!");
-        welcomeMessage.setRecipient(idRecipient);
-        welcomeMessage.setSender(idCurrentUser);
+        welcomeMessage.setMessage(welcomeMessageText);
+        welcomeMessage.setRecipient(userChatModel.getmCurrentUserUid());
+        welcomeMessage.setSender(userChatModel.getmRecipientUid());
 
         DatabaseReference mFirebaseDatabaseReference;
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         /*si no existe el chat room se pasa a crearlo con este método*/
-        String idNewChatRoom = generateChatRoomsKey(idRecipient,idCurrentUser);
+        String idNewChatRoom = generateChatRoomsKey(userChatModel.getmRecipientUid(),userChatModel.getmCurrentUserUid());
 
         //introducimos los datos de cabecera del chatRoom nuevo.
-        mFirebaseDatabaseReference.child("chat_rooms_info").child(idCurrentUser).child(idNewChatRoom).setValue(userChatModel);
+        mFirebaseDatabaseReference.child("chat_rooms_info").child(userChatModel.getmCurrentUserUid()).child(idNewChatRoom).setValue(userChatModel);
         //creamos el chatRoom con mensaje de bienvenida
-        mFirebaseDatabaseReference.child("chat_rooms").child(idNewChatRoom).setValue(welcomeMessage);
+        mFirebaseDatabaseReference.child("chat_rooms").child(idNewChatRoom).push().setValue(welcomeMessage);
 
 
     }

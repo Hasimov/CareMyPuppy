@@ -17,11 +17,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import com.carepuppy.pirtu.caremypuppy.Fragments.ComentariosFragment;
 import com.carepuppy.pirtu.caremypuppy.Interfaces.OnListFragmentClickListenerComment;
 import com.carepuppy.pirtu.caremypuppy.Models.Carer;
 import com.carepuppy.pirtu.caremypuppy.Models.Comentario;
+import com.carepuppy.pirtu.caremypuppy.Models.UsersChatModel;
 import com.carepuppy.pirtu.caremypuppy.Utiles.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -46,6 +46,8 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
     FirebaseDatabase database ;
     DatabaseReference myRef ;
     RatingBar rBdet_avgCarer;
+    static Carer itemCarer = new Carer();
+
 
 
 
@@ -65,12 +67,10 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
         tVdet_descContent = (TextView) findViewById(R.id.tVdet_descContent);
         tVdet_priceD = (TextView) findViewById(R.id.tVdet_priceD);
         tVdet_priceN = (TextView) findViewById(R.id.tVdet_priceN);
-        tVdet_telefono = (TextView) findViewById(R.id.tVdet_telefono);
         iBdet_chat = (ImageButton) findViewById(R.id.btn_det_chat);
         rBdet_avgCarer = (RatingBar) findViewById(R.id.rBdet_avgCarer);
 
-//        //tomo el valor del id desde el intent
-
+        //tomo el valor del id desde el intent
         id_Carer = getIntent().getExtras().getString("id_Carer");
         id_CurrentUser = Utils.getCurrent_userId();
          Log.d("ids", id_Carer+" "+id_CurrentUser); //TODO quitar
@@ -82,7 +82,8 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
 
         //cambio de imagen del colapsing bar TODO: aqui tendré que pasar el putextra de la urlimg
         //Asyntack para el cambio de foto del local
-        String imgUrl = "https://cdnb3.artstation.com/p/assets/images/images/002/240/323/large/tran-bich-phuong-dog.jpg?1459181802";
+        String imgUrl = "https://cdnb3.artstation.com/p/assets/images/images/002/240/323/large" +
+                "/tran-bich-phuong-dog.jpg?1459181802";
         new DownloadImageTask(collapsingToolbarLayout)
                 .execute(imgUrl);
 
@@ -93,29 +94,88 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+
+                /*Acción ir a ActivityChat*/
+                //1.Compruebo que el chat aún no existe
+                final String keyChatRoom = Utils.generateChatRoomsKey(id_CurrentUser,id_Carer);
+                Log.d("KEYCHAT generado",keyChatRoom);
+
+                DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance()
+                        .getReference("chat_rooms_info").child(id_CurrentUser);
+
+                mFirebaseDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        boolean keyExist = false;
+                        for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                            UsersChatModel usersChatModel = postSnapshot.getValue(UsersChatModel.class);
+                            String keyItemChat = postSnapshot.getKey();
+                            if (keyChatRoom.equals(keyItemChat)){
+                                Log.d("KEYCHAT son iguales",keyItemChat);
+                                keyExist = true;
+                            }else{
+                                Log.d("KEYCHAT no son iguales",keyItemChat);
+
+                            }
+                        }
+
+                        //aquí lanzo el intent si existe el chat o si no lo creo y lo lanzo
+                        Intent intentDetalleToChat = new Intent(DetalleCuidador.this, ChatActivity.class);
+                        String firstName =  itemCarer.getName();
+                        String avatarId = itemCarer.getUrlImg();
+                        String mRecipientUid = id_Carer;
+                            /*Intents*/
+                        intentDetalleToChat.putExtra("firstName",firstName);
+                        intentDetalleToChat.putExtra("avatarId",avatarId);
+                        intentDetalleToChat.putExtra("mRecipientUid",mRecipientUid);
+
+                        if(keyExist){
+                            /*Si existe el chat lanzo directamente el intent*/
+                            startActivity(intentDetalleToChat);
+
+                        }else{
+                            /*Si no existe el chat lo creo y luego  lanzo  el intent*/
+                            UsersChatModel usersChatModel = new UsersChatModel();
+                            usersChatModel.setAvatarId("http");
+                            usersChatModel.setCreatedAt("12334124");
+                            usersChatModel.setFirstName(itemCarer.getName());
+                            usersChatModel.setmCurrentUserName("username");
+                            usersChatModel.setmCurrentUserCreatedAt("13214124124");
+                            usersChatModel.setmRecipientUid(id_Carer);
+                            usersChatModel.setmCurrentUserUid(id_CurrentUser);
+                            Utils.generateIdChatMetadata(usersChatModel);
+
+                            /*Lanzo el nuevo intent*/
+                            startActivity(intentDetalleToChat);
+
+                        }
+
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
             }
+
         });
 
-
-
-    //Actualizo los campos de la vista
-    database = FirebaseDatabase.getInstance();
-    myRef = database.getReference("carer");
-
+        //Obtengo los datos del Carer a partir del id
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("carer");
 
         myRef.child(id_Carer).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Carer itemCarer = dataSnapshot.getValue(Carer.class);
-                Log.d("CARER",itemCarer.toString());
+                itemCarer = dataSnapshot.getValue(Carer.class);
 
                 //Seteo los campos de la vista
 //                iVdetAvatar = (ImageView) findViewById(R.id.iVcareAvatar);
                 tVdet_name.setText(itemCarer.getName()+" "+itemCarer.getSurname());
-//                tVdet_telefono.setText(itemCarer.get);
                 tVdet_direccion.setText(itemCarer.getAdress()+" , "+itemCarer.getCity()+" , "+ itemCarer.getCp());
                 tVdet_descContent.setText(itemCarer.getDescription());
                 tVdet_priceD.setText(String.valueOf(itemCarer.getPriceD()+ " €"));
@@ -124,40 +184,11 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
                 tVdet_telefono.setText(String.valueOf(itemCarer.getPhone()));
 
 
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w("error", "getUser:onCancelled", databaseError.toException());
-            }
-        });
-
-//Pantalla de chat desde el boton
-        iBdet_chat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-//                Intent intentDetToChat = new Intent(DetalleCuidador.this,ChatActivity.class);
-//                String firstName =  item.getFirstName();
-//                String avatarId = item.getAvatarId();
-//                String mRecipientUid = item.getmRecipientUid();
-//                /*Current user (or sender) info*/
-//                String mCurrentUserName = item.getmCurrentUserName();
-//                String mCurrentUserUid = item.getmCurrentUserUid();
-//                /*Intents*/
-//                intentChatRoomToChat.putExtra("firstName",firstName);
-//                intentChatRoomToChat.putExtra("avatarId",avatarId);
-//                intentChatRoomToChat.putExtra("mRecipientUid",mRecipientUid);
-//
-//
-//                startActivity(intentChatRoomToChat);
-//                //creo el intent cuando hago click sobre un cadview
-//                intentChat = new Intent(DetalleCuidador.this,ChatActivity.class);
-//                //TODO: pasar los extras para el siguiente activity
-//                startActivity(intentChat);
-
-
             }
         });
 

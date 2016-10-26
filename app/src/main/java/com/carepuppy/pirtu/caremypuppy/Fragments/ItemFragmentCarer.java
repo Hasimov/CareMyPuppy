@@ -158,6 +158,7 @@ public class ItemFragmentCarer extends Fragment{
                             DatabaseReference dbKey = mFirebaseAdapter.getRef(position);
                             String itemKey = dbKey.getKey();
 
+                            //Paso el id del Carer a la siguiente vista
                             mListenerRecyclerCarer.onListFragmentInteraction(carer, itemKey);
 
 
