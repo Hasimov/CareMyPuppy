@@ -122,8 +122,18 @@ public class Utils {
         /*si no existe el chat room se pasa a crearlo con este método*/
         String idNewChatRoom = generateChatRoomsKey(userChatModel.getmRecipientUid(),userChatModel.getmCurrentUserUid());
 
-        //introducimos los datos de cabecera del chatRoom nuevo.
+        //introducimos los datos de cabecera del chatRoom nuevo. hay que generar el chat tanto en la raiz de uno como del otro user
         mFirebaseDatabaseReference.child("chat_rooms_info").child(userChatModel.getmCurrentUserUid()).child(idNewChatRoom).setValue(userChatModel);
+        //cambio los roles para el chatRoom del otro user
+        Log.d("KEYCHAT",userChatModel.toString());
+        String newRecipientID = userChatModel.getmCurrentUserUid();
+        String newCurrentUserID = userChatModel.getmRecipientUid();
+        userChatModel.setmCurrentUserUid(newCurrentUserID);
+        userChatModel.setmRecipientUid(newRecipientID);
+        Log.d("KEYCHAT",userChatModel.toString());
+
+        mFirebaseDatabaseReference.child("chat_rooms_info").child(userChatModel.getmCurrentUserUid()).child(idNewChatRoom).setValue(userChatModel);
+
         //creamos el chatRoom con mensaje de bienvenida
         mFirebaseDatabaseReference.child("chat_rooms").child(idNewChatRoom).push().setValue(welcomeMessage);
 
