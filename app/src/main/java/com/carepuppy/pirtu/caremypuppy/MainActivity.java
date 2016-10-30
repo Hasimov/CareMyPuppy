@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +71,9 @@ public class MainActivity extends AppCompatActivity
 
 //Registro con Firebase
         mAuth = FirebaseAuth.getInstance();
+
+ //       Log.d("USER",mAuth.getCurrentUser().getDisplayName);
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {

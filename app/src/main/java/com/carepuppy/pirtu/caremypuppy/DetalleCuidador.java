@@ -138,11 +138,11 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
                         }else{
                             /*Si no existe el chat lo creo y luego  lanzo  el intent*/
                             UsersChatModel usersChatModel = new UsersChatModel();
-                            usersChatModel.setAvatarId("http");
-                            usersChatModel.setCreatedAt("12334124");
+                            usersChatModel.setAvatarId("http//avatar carer");//TODO: URL avatar
+                            usersChatModel.setCreatedAt("12334124");//TODO: fechas actuales
                             usersChatModel.setFirstName(itemCarer.getName());
-                            usersChatModel.setmCurrentUserName("username");
-                            usersChatModel.setmCurrentUserCreatedAt("13214124124");
+                            usersChatModel.setmCurrentUserName(Utils.getCurrentUserInfo().getDisplayName());
+                            usersChatModel.setmCurrentUserCreatedAt("created");//TODO: fechas actuales
                             usersChatModel.setmRecipientUid(id_Carer);
                             usersChatModel.setmCurrentUserUid(id_CurrentUser);
                             Utils.generateIdChatMetadata(usersChatModel);
@@ -235,5 +235,11 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
     public void transicionPagina(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentComent,fragment).commit();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }

@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 //si nos logeamos con éxito
                                 startActivity(intentLog);
-                                finish();
+                                //finish();
 
                             }
 

@@ -7,6 +7,7 @@ import com.carepuppy.pirtu.caremypuppy.Fragments.ItemFragmentCarer;
 import com.carepuppy.pirtu.caremypuppy.Models.Carer;
 import com.carepuppy.pirtu.caremypuppy.Models.MessageChatModel;
 import com.carepuppy.pirtu.caremypuppy.Models.UsersChatModel;
+import com.carepuppy.pirtu.caremypuppy.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -64,6 +65,19 @@ public class Utils {
         current_userId = mFirebaseAuth.getCurrentUser().getUid();//id del usuario actual
 
         return current_userId;
+    }
+
+    //obtener info del user actual
+    public static FirebaseUser getCurrentUserInfo(){
+
+        // Firebase instance variables
+        FirebaseAuth mFirebaseAuth;
+        FirebaseUser mFirebaseUser;
+        // Firebase
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+        return mFirebaseUser;
     }
 
     //comprobar que existe el id_chat_room, si existe me devuelve un true
@@ -124,18 +138,31 @@ public class Utils {
 
         //introducimos los datos de cabecera del chatRoom nuevo. hay que generar el chat tanto en la raiz de uno como del otro user
         mFirebaseDatabaseReference.child("chat_rooms_info").child(userChatModel.getmCurrentUserUid()).child(idNewChatRoom).setValue(userChatModel);
-        //cambio los roles para el chatRoom del otro user
-        Log.d("KEYCHAT",userChatModel.toString());
-        String newRecipientID = userChatModel.getmCurrentUserUid();
-        String newCurrentUserID = userChatModel.getmRecipientUid();
-        userChatModel.setmCurrentUserUid(newCurrentUserID);
-        userChatModel.setmRecipientUid(newRecipientID);
-        Log.d("KEYCHAT",userChatModel.toString());
+        //cambio los roles para el chatRoom del usuario actual
 
-        mFirebaseDatabaseReference.child("chat_rooms_info").child(userChatModel.getmCurrentUserUid()).child(idNewChatRoom).setValue(userChatModel);
+        //Genero el chatRoom Info para el chat del carer, cambio los roles
+        UsersChatModel chatModelCarer = new UsersChatModel();
+        chatModelCarer.setmCurrentUserUid(userChatModel.getmRecipientUid());
+        chatModelCarer.setmRecipientUid(userChatModel.getmCurrentUserUid());
+//        chatModelCarer.setFirstName(getCurrentUserInfo().getDisplayName());
+        chatModelCarer.setmCurrentUserName(userChatModel.getFirstName());
+        chatModelCarer.setAvatarId("http://carerAvatar");//TODO: incluir foto de user
+        chatModelCarer.setCreatedAt(userChatModel.getCreatedAt());
+        chatModelCarer.setmCurrentUserCreatedAt("");
+
+
+
+
+
+        Log.d("KEYCHAT_user",userChatModel.toString());
+        Log.d("KEYCHAT_carer",chatModelCarer.toString());
+        /*el chat Info para el carer*/
+        mFirebaseDatabaseReference.child("chat_rooms_info").child(chatModelCarer.getmCurrentUserUid()).child(idNewChatRoom).setValue(chatModelCarer);
 
         //creamos el chatRoom con mensaje de bienvenida
         mFirebaseDatabaseReference.child("chat_rooms").child(idNewChatRoom).push().setValue(welcomeMessage);
+
+
 
 
     }
