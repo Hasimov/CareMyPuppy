@@ -24,6 +24,7 @@ import com.carepuppy.pirtu.caremypuppy.Models.Comentario;
 import com.carepuppy.pirtu.caremypuppy.Models.UsersChatModel;
 import com.carepuppy.pirtu.caremypuppy.Utiles.Utils;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -138,10 +139,14 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
                         }else{
                             /*Si no existe el chat lo creo y luego  lanzo  el intent*/
                             UsersChatModel usersChatModel = new UsersChatModel();
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            String currentName = user.getDisplayName();
+
+
                             usersChatModel.setAvatarId("http//avatar carer");//TODO: URL avatar
                             usersChatModel.setCreatedAt("12334124");//TODO: fechas actuales
                             usersChatModel.setFirstName(itemCarer.getName());
-                            usersChatModel.setmCurrentUserName(Utils.getCurrentUserInfo().getDisplayName());
+                            usersChatModel.setmCurrentUserName(currentName);
                             usersChatModel.setmCurrentUserCreatedAt("created");//TODO: fechas actuales
                             usersChatModel.setmRecipientUid(id_Carer);
                             usersChatModel.setmCurrentUserUid(id_CurrentUser);

@@ -70,6 +70,7 @@ public class Utils {
     //obtener info del user actual
     public static FirebaseUser getCurrentUserInfo(){
 
+
         // Firebase instance variables
         FirebaseAuth mFirebaseAuth;
         FirebaseUser mFirebaseUser;
@@ -144,7 +145,7 @@ public class Utils {
         UsersChatModel chatModelCarer = new UsersChatModel();
         chatModelCarer.setmCurrentUserUid(userChatModel.getmRecipientUid());
         chatModelCarer.setmRecipientUid(userChatModel.getmCurrentUserUid());
-//        chatModelCarer.setFirstName(getCurrentUserInfo().getDisplayName());
+        chatModelCarer.setFirstName(getCurrentUserInfo().getDisplayName());
         chatModelCarer.setmCurrentUserName(userChatModel.getFirstName());
         chatModelCarer.setAvatarId("http://carerAvatar");//TODO: incluir foto de user
         chatModelCarer.setCreatedAt(userChatModel.getCreatedAt());
