@@ -99,11 +99,7 @@ public class ChatActivity extends AppCompatActivity {
         /*cambio el título de la bar*/
         setTitle(firstName);
 
-        //TODO quitar
 
-        //TODO quitar, pruebo que existe este idChatInfo
-        //Utils.generateChatRoomsKey(mRecipientUid,mCurrentUserUid);
-        //Utils.idChatRoomChecker(mCurrentUserUid,mRecipientUid);
         // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAdapter = new FirebaseRecyclerAdapter<MessageChatModel, MessageViewHolder>(MessageChatModel.class,
