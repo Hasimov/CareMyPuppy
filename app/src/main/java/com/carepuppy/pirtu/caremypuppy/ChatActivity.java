@@ -1,6 +1,7 @@
 package com.carepuppy.pirtu.caremypuppy;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -184,4 +185,12 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+        //ChatActivity.super.onBackPressed();
+        Intent intent = new Intent(ChatActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }//final class

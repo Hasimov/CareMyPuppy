@@ -76,15 +76,15 @@
             android:textSize="20dp"
             android:text="955555555"
             android:textAppearance="?attr/textAppearanceListItem" />
-        <ImageButton
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:id="@+id/btn_det_chat"
-            android:src="@drawable/chat"
-            android:layout_below="@+id/carerCard"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/chat_btn_shape"
-            android:layout_alignParentEnd="true" />
+        <!--<ImageButton-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:id="@+id/btn_det_chat"-->
+            <!--android:src="@drawable/chat"-->
+            <!--android:layout_below="@+id/carerCard"-->
+            <!--android:layout_marginRight="15dp"-->
+            <!--android:background="@drawable/chat_btn_shape"-->
+            <!--android:layout_alignParentEnd="true" />-->
         <ImageView
             android:id="@+id/location"
             android:layout_width="wrap_content"
@@ -168,8 +168,9 @@
                 android:layout_marginRight="20dp"
                 android:layout_alignBaseline="@+id/tVdet_alojD"
                 android:layout_alignParentEnd="true"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/categoria_shape"/>
+                android:textColor="@color/colorAccent"/>
+                <!--android:background="@drawable/categoria_shape"-->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -194,8 +195,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_alignBaseline="@+id/tVdet_alojN"
                 android:layout_alignParentEnd="true"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/categoria_shape"/>
+                android:textColor="@color/colorAccent"/>
+                <!--android:background="@drawable/categoria_shape"-->
 
 
         </RelativeLayout>

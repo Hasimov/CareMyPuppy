@@ -9,6 +9,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -34,22 +36,19 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
-public class DetalleCuidador extends AppCompatActivity implements OnListFragmentClickListenerComment{
+public class DetalleCuidador extends AppCompatActivity implements OnListFragmentClickListenerComment {
 
     CollapsingToolbarLayout collapsingToolbarLayout;
     ImageView iVdetAvatar;
-    TextView tVdet_name,tVdet_telefono,tVdet_direccion,tVdet_descContent,tVdet_priceD,tVdet_priceN;
+    TextView tVdet_name, tVdet_telefono, tVdet_direccion, tVdet_descContent, tVdet_priceD, tVdet_priceN;
     ComentariosFragment comentariosFragment = null;
-    ImageButton iBdet_chat;
     Intent intentChat;
     String id_Carer, id_CurrentUser;
     FirebaseAuth auth;
-    FirebaseDatabase database ;
-    DatabaseReference myRef ;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
     RatingBar rBdet_avgCarer;
     static Carer itemCarer = new Carer();
-
-
 
 
     @Override
@@ -68,16 +67,15 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
         tVdet_descContent = (TextView) findViewById(R.id.tVdet_descContent);
         tVdet_priceD = (TextView) findViewById(R.id.tVdet_priceD);
         tVdet_priceN = (TextView) findViewById(R.id.tVdet_priceN);
-        iBdet_chat = (ImageButton) findViewById(R.id.btn_det_chat);
         rBdet_avgCarer = (RatingBar) findViewById(R.id.rBdet_avgCarer);
 
         //tomo el valor del id desde el intent
         id_Carer = getIntent().getExtras().getString("id_Carer");
         id_CurrentUser = Utils.getCurrent_userId();
-         Log.d("ids", id_Carer+" "+id_CurrentUser); //TODO quitar
+        Log.d("ids", id_Carer + " " + id_CurrentUser); //TODO quitar
 
         //inicio el fragmet por defecto
-        comentariosFragment= new ComentariosFragment();
+        comentariosFragment = new ComentariosFragment();
         transicionPagina(comentariosFragment);
 
 
@@ -89,8 +87,6 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
                 .execute(imgUrl);
 
 
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,8 +96,8 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
 
                 /*Acción ir a ActivityChat*/
                 //1.Compruebo que el chat aún no existe
-                final String keyChatRoom = Utils.generateChatRoomsKey(id_CurrentUser,id_Carer);
-                Log.d("KEYCHAT generado",keyChatRoom);
+                final String keyChatRoom = Utils.generateChatRoomsKey(id_CurrentUser, id_Carer);
+                Log.d("KEYCHAT generado", keyChatRoom);
 
                 DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance()
                         .getReference("chat_rooms_info").child(id_CurrentUser);
@@ -110,33 +106,33 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         boolean keyExist = false;
-                        for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                             UsersChatModel usersChatModel = postSnapshot.getValue(UsersChatModel.class);
                             String keyItemChat = postSnapshot.getKey();
-                            if (keyChatRoom.equals(keyItemChat)){
-                                Log.d("KEYCHAT son iguales",keyItemChat);
+                            if (keyChatRoom.equals(keyItemChat)) {
+                                Log.d("KEYCHAT son iguales", keyItemChat);
                                 keyExist = true;
-                            }else{
-                                Log.d("KEYCHAT no son iguales",keyItemChat);
+                            } else {
+                                Log.d("KEYCHAT no son iguales", keyItemChat);
 
                             }
                         }
 
                         //aquí lanzo el intent si existe el chat o si no lo creo y lo lanzo
                         Intent intentDetalleToChat = new Intent(DetalleCuidador.this, ChatActivity.class);
-                        String firstName =  itemCarer.getName();
+                        String firstName = itemCarer.getName();
                         String avatarId = itemCarer.getUrlImg();
                         String mRecipientUid = id_Carer;
                             /*Intents*/
-                        intentDetalleToChat.putExtra("firstName",firstName);
-                        intentDetalleToChat.putExtra("avatarId",avatarId);
-                        intentDetalleToChat.putExtra("mRecipientUid",mRecipientUid);
+                        intentDetalleToChat.putExtra("firstName", firstName);
+                        intentDetalleToChat.putExtra("avatarId", avatarId);
+                        intentDetalleToChat.putExtra("mRecipientUid", mRecipientUid);
 
-                        if(keyExist){
+                        if (keyExist) {
                             /*Si existe el chat lanzo directamente el intent*/
                             startActivity(intentDetalleToChat);
 
-                        }else{
+                        } else {
                             /*Si no existe el chat lo creo y luego  lanzo  el intent*/
                             UsersChatModel usersChatModel = new UsersChatModel();
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -159,6 +155,7 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
 
 
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
@@ -180,11 +177,11 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
 
                 //Seteo los campos de la vista
 //                iVdetAvatar = (ImageView) findViewById(R.id.iVcareAvatar);
-                tVdet_name.setText(itemCarer.getName()+" "+itemCarer.getSurname());
-                tVdet_direccion.setText(itemCarer.getAdress()+" , "+itemCarer.getCity()+" , "+ itemCarer.getCp());
+                tVdet_name.setText(itemCarer.getName() + " " + itemCarer.getSurname());
+                tVdet_direccion.setText(itemCarer.getAdress() + " , " + itemCarer.getCity() + " , " + itemCarer.getCp());
                 tVdet_descContent.setText(itemCarer.getDescription());
-                tVdet_priceD.setText(String.valueOf(itemCarer.getPriceD()+ " €"));
-                tVdet_priceN.setText(String.valueOf(itemCarer.getPriceN()+ " €"));
+                tVdet_priceD.setText(String.valueOf(itemCarer.getPriceD() + " €"));
+                tVdet_priceN.setText(String.valueOf(itemCarer.getPriceN() + " €"));
                 rBdet_avgCarer.setRating(itemCarer.getStars());
                 tVdet_telefono.setText(String.valueOf(itemCarer.getPhone()));
 
@@ -199,6 +196,7 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
 
 
     }//fin onCreate
+
     @Override
     public void onListFragmentInteraction(Comentario item) {
 
@@ -233,18 +231,19 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
         }
 
 
-
     }
 
     //para cambiar los fragments
     public void transicionPagina(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentComent,fragment).commit();
+                .replace(R.id.fragmentComent, fragment).commit();
     }
 
 
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true);
+        Intent intent = new Intent(DetalleCuidador.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
