@@ -20,7 +20,6 @@ import java.util.List;
 
 public class ComentariosFragment extends Fragment {
 
-    // TODO: Customize parameters
     private int mColumnCount = 1;
 
     private RecyclerView recyclerViewComment;

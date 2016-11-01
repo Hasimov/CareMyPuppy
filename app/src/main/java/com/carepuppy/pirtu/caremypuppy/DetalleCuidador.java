@@ -188,9 +188,6 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
                 tVdet_priceN.setText(String.valueOf(itemCarer.getPriceN() + " €"));
                 rBdet_avgCarer.setRating(itemCarer.getStars());
                 tVdet_telefono.setText(String.valueOf(itemCarer.getPhone()));
-//                iVdetAvatar.setImageResource(R.drawable.avatar1);
-                Log.d("URI",itemCarer.getUrlImg());
-//                iVdetAvatar.setImageURI(Uri.parse(itemCarer.getUrlImg()));
                 if(itemCarer.getUrlImg().length()<1){
                     iVdetAvatar.setImageResource(R.drawable.avatar1);
                 }else{

@@ -58,9 +58,7 @@ public class ItemFragmentCarer extends Fragment{
 
     }
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
 
     /**
@@ -70,7 +68,6 @@ public class ItemFragmentCarer extends Fragment{
     public ItemFragmentCarer() {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static ItemFragmentCarer newInstance(int columnCount) {
         ItemFragmentCarer fragment = new ItemFragmentCarer();

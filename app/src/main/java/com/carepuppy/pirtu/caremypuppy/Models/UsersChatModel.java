@@ -90,15 +90,6 @@ public class UsersChatModel {
         this.mCurrentUserCreatedAt = mCurrentUserCreatedAt;
     }
 
-    private String createUniqueChatRef() {
-        //unir los id de los usuarios para generar una clave única para el chat
-        /*TODO tengo que hacerlo por fecha, incluir mejor createdAt*/
-        String uniqueChatRef="";
-
-        uniqueChatRef = getmCurrentUserUid()+"-"+getmRecipientUid();
-
-        return uniqueChatRef;
-    }
 
     @Override
     public String toString() {

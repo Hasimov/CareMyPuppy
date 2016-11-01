@@ -56,7 +56,6 @@ public class ChatsFragment extends Fragment {
         }
 
     }
-    // TODO: Customize parameters
     private int mColumnCount = 1;
 
     private OnListFragmentInteractionListenerChatRooms mListenerRecyclerChatRooms;
