@@ -187,6 +187,7 @@ public class ChatActivity extends AppCompatActivity {
         //ChatActivity.super.onBackPressed();
         Intent intent = new Intent(ChatActivity.this, MainActivity.class);
         startActivity(intent);
-        finish();
+//        finish();
+//        onBackPressed();
     }
 }//final class

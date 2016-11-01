@@ -17,11 +17,13 @@ import com.carepuppy.pirtu.caremypuppy.ChatActivity;
 import com.carepuppy.pirtu.caremypuppy.Interfaces.OnListFragmentInteractionListenerChatRooms;
 import com.carepuppy.pirtu.caremypuppy.Models.UsersChatModel;
 import com.carepuppy.pirtu.caremypuppy.R;
+import com.carepuppy.pirtu.caremypuppy.Utiles.Utils;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 
 public class ChatsFragment extends Fragment {
@@ -99,8 +101,19 @@ public class ChatsFragment extends Fragment {
 
                 //Seteo las vistas para cada item leido en Firebase
                 viewHolderChatRooms.tVuserName.setText(userChatModel.getFirstName());
-                viewHolderChatRooms.tVlastMessageDate.setText(userChatModel.getCreatedAt());
-                viewHolderChatRooms.iVuserAvatar.setImageResource(R.drawable.avatar1);
+                String timeFormat = Utils.timeStampToString(userChatModel.getCreatedAt());
+                viewHolderChatRooms.tVlastMessageDate.setText(timeFormat);
+                if(userChatModel.getAvatarId().length()<1){
+                    viewHolderChatRooms.iVuserAvatar.setImageResource(R.drawable.avatar1);
+                }else{
+                    //añado fotos con Picasso
+                    Picasso.with(getContext())
+                            .load(userChatModel.getAvatarId())
+                            .placeholder(R.drawable.avatar1)
+                            .error(R.drawable.avatar1)//con la url que traigo de la consulta a la API
+                            .into(viewHolderChatRooms.iVuserAvatar);
+                }
+//                viewHolderChatRooms.iVuserAvatar.setImageResource(userChatModel.getAvatarId());
                 Log.d("CHATMODEL",userChatModel.toString());
 
                 //Elemento click para el cambio de vista

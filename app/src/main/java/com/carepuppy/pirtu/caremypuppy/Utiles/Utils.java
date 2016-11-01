@@ -1,5 +1,6 @@
 package com.carepuppy.pirtu.caremypuppy.Utiles;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,6 +17,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by pirtu on 30/09/2016.
@@ -149,7 +154,7 @@ public class Utils {
         chatModelCarer.setmCurrentUserName(userChatModel.getFirstName());
         chatModelCarer.setAvatarId("http://carerAvatar");//TODO: incluir foto de user
         chatModelCarer.setCreatedAt(userChatModel.getCreatedAt());
-        chatModelCarer.setmCurrentUserCreatedAt("");
+        chatModelCarer.setmCurrentUserCreatedAt(userChatModel.getmCurrentUserCreatedAt());
 
 
 
@@ -167,4 +172,15 @@ public class Utils {
 
 
     }
+
+   public static String timeStampToString(String time){
+
+       long unixSeconds = Long.parseLong(time);
+       Date date = new Date(unixSeconds*1000L); // *1000 is to convert seconds to milliseconds
+       SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); // the format of your date
+       sdf.setTimeZone(TimeZone.getTimeZone("GMT+1")); // give a timezone reference for formating (see comment at the bottom
+       String formattedDate = sdf.format(date);
+       return formattedDate;
+
+   }
 }

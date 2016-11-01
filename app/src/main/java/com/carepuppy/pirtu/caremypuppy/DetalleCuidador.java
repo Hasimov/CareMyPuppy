@@ -1,8 +1,10 @@
 package com.carepuppy.pirtu.caremypuppy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -48,6 +50,7 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
     FirebaseDatabase database;
     DatabaseReference myRef;
     RatingBar rBdet_avgCarer;
+    Context context;
     static Carer itemCarer = new Carer();
 
 
@@ -59,8 +62,9 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
         setSupportActionBar(toolbar);
 
         //Inicio los componentes
+        context = getApplicationContext();
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        iVdetAvatar = (ImageView) findViewById(R.id.iVcareAvatar);
+        iVdetAvatar = (ImageView) findViewById(R.id.iVdet_Avatar);
         tVdet_name = (TextView) findViewById(R.id.tVdet_name);
         tVdet_telefono = (TextView) findViewById(R.id.tVdet_telefono);
         tVdet_direccion = (TextView) findViewById(R.id.tVdet_direccion);
@@ -137,13 +141,13 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
                             UsersChatModel usersChatModel = new UsersChatModel();
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             String currentName = user.getDisplayName();
+                            String unixTime = String.valueOf(System.currentTimeMillis() / 1000L);
 
-
-                            usersChatModel.setAvatarId("http//avatar carer");//TODO: URL avatar
-                            usersChatModel.setCreatedAt("12334124");//TODO: fechas actuales
+                            usersChatModel.setAvatarId(itemCarer.getUrlImg());//TODO: URL avatar
+                            usersChatModel.setCreatedAt(unixTime);
                             usersChatModel.setFirstName(itemCarer.getName());
                             usersChatModel.setmCurrentUserName(currentName);
-                            usersChatModel.setmCurrentUserCreatedAt("created");//TODO: fechas actuales
+                            usersChatModel.setmCurrentUserCreatedAt(unixTime);
                             usersChatModel.setmRecipientUid(id_Carer);
                             usersChatModel.setmCurrentUserUid(id_CurrentUser);
                             Utils.generateIdChatMetadata(usersChatModel);
@@ -184,6 +188,19 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
                 tVdet_priceN.setText(String.valueOf(itemCarer.getPriceN() + " €"));
                 rBdet_avgCarer.setRating(itemCarer.getStars());
                 tVdet_telefono.setText(String.valueOf(itemCarer.getPhone()));
+//                iVdetAvatar.setImageResource(R.drawable.avatar1);
+                Log.d("URI",itemCarer.getUrlImg());
+//                iVdetAvatar.setImageURI(Uri.parse(itemCarer.getUrlImg()));
+                if(itemCarer.getUrlImg().length()<1){
+                    iVdetAvatar.setImageResource(R.drawable.avatar1);
+                }else{
+                    //añado fotos con Picasso
+                    Picasso.with(context)
+                            .load(itemCarer.getUrlImg())
+                            .placeholder(R.drawable.avatar1)
+                            .error(R.drawable.avatar1)//con la url que traigo de la consulta a la API
+                            .into(iVdetAvatar);
+                }
 
 
             }

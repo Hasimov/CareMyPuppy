@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
                     Log.d("TAG", "onAuthStateChanged:signed_out");
                     intentLogin = new Intent(MainActivity.this,LoginActivity.class);
                     startActivity(intentLogin);
-                    finish();
+                    //finish();
                 }
                 // ...
             }
@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity
         intentChatRoomToChat.putExtra("avatarId",avatarId);
         intentChatRoomToChat.putExtra("mRecipientUid",mRecipientUid);
         startActivity(intentChatRoomToChat);
-        finish();
+        //finish();
 
 
     }
