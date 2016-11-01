@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+
 public class ItemFragmentCarer extends Fragment{
 
     public static final String MESSAGES_CHILD = "carer";
@@ -134,6 +136,7 @@ public class ItemFragmentCarer extends Fragment{
                     //añado fotos con Picasso
                     Picasso.with(getContext())
                             .load(carer.getUrlImg())
+                            .transform(new CropCircleTransformation())
                             .placeholder(R.drawable.avatar1)
                             .error(R.drawable.avatar1)//con la url que traigo de la consulta a la API
                             .into(viewHolder.iVcareAvatar);

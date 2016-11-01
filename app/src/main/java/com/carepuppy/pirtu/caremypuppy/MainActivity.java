@@ -1,6 +1,8 @@
 package com.carepuppy.pirtu.caremypuppy;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.carepuppy.pirtu.caremypuppy.Fragments.ChatsFragment;
@@ -25,6 +28,11 @@ import com.carepuppy.pirtu.caremypuppy.Models.UsersChatModel;
 import com.carepuppy.pirtu.caremypuppy.Utiles.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
+
+import java.net.URI;
+
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnListFragmentClickListenerCarer, OnListFragmentInteractionListenerChatRooms {
@@ -36,9 +44,8 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth.AuthStateListener mAuthListener;
     String name, mail;
     TextView tVnavuser,tVnavEmail;
-
-
-
+    ImageView iVnavdog;
+    Context context;
 
 
     @Override
@@ -50,8 +57,6 @@ public class MainActivity extends AppCompatActivity
         // toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -65,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         //componentes
         tVnavEmail  = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tVnavEmail);
         tVnavuser = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tVnavuser);
-//        imgMenu = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageMenu);
+        iVnavdog = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iVnavdog);
 
 
         //inicio el fragmet por defecto
@@ -216,7 +221,24 @@ public class MainActivity extends AppCompatActivity
 
             tVnavEmail.setText(mail);
             tVnavuser.setText(name);
-            Log.d("MAIN",name+" : "+mail);
+            if(user.getPhotoUrl()==null){
+                //TODO: meter fotos en los user, en la pantalla registro
+            }else{
+                Uri uriImg = user.getPhotoUrl();
+                String uriString = uriImg.toString();
+                if(uriString.length()<1){
+                    iVnavdog.setImageResource(R.drawable.avatar1);
+                }else{
+                    //añado fotos con Picasso
+                    Picasso.with(context)
+                            .load(uriString)
+                            .transform(new CropCircleTransformation())
+                            .placeholder(R.drawable.avatar1)
+                            .error(R.drawable.avatar1)//con la url que traigo de la consulta a la API
+                            .into(iVnavdog);
+                }
+            }
+
 
             // The user's ID, unique to the Firebase project. Do NOT use this value to
             // authenticate with your backend server, if you have one. Use

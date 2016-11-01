@@ -38,6 +38,8 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+
 public class DetalleCuidador extends AppCompatActivity implements OnListFragmentClickListenerComment {
 
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -194,6 +196,7 @@ public class DetalleCuidador extends AppCompatActivity implements OnListFragment
                     //añado fotos con Picasso
                     Picasso.with(context)
                             .load(itemCarer.getUrlImg())
+                            .transform(new CropCircleTransformation())
                             .placeholder(R.drawable.avatar1)
                             .error(R.drawable.avatar1)//con la url que traigo de la consulta a la API
                             .into(iVdetAvatar);
