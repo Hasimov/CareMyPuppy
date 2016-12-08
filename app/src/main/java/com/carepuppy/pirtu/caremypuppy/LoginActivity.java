@@ -86,11 +86,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //TODO: Cambiar credenciales
-                email = "hasimov@gmail.com";
-                pass = "qwerty123";
+//                email = "hasimov@gmail.com";
+//                pass = "qwerty123";
 
-//                email = String.valueOf(eTemail.getText());
-//                pass = String.valueOf(eTpass.getText());
+                email = String.valueOf(eTemail.getText());
+                pass = String.valueOf(eTpass.getText());
 
 
                 if (!(email.length()<1)&&!(pass.length()<1)) {
